@@ -20,11 +20,28 @@
   (reduce #(process-hexapod-stats %1 %2)
           {} hexapod->country))
 
-(defn country->quantity [hexapods->country]
-  (into {} (for [[country hexapods] (country->hexapod hexapods->country)]
+(defn country->quantity [hexapod->country]
+  (into {} (for [[country hexapods] (country->hexapod hexapod->country)]
              [country (count hexapods)])))
 
+(defn country->quantity-sorted [hexapod->country]
+  (->> (country->quantity hexapod->country)
+       (sort #(-(compare (last %1) (last %2))))))
+
+(defn -main
+  [& args]
+  (let [path "resources"
+        hexapod->country (parse-hexapods (slurp (str path "/" "hexapod-stats.txt")))
+        result (time (take 5 (country->quantity-sorted hexapod->country)))]
+    (println "Пятёрка стран с самым большим количеством видов насекомых из коллекции:" )
+    (pprint result)))
+
 (comment
+  (country->quantity-sorted
+   {"Hexapod1" #{"Country1"}
+    "Hexapod4" #{"Country3"}
+    "Hexapod2" #{"Country1", "Country2"}
+    "Hexapod3" #{"Country1", "Country2"}})
   (country->quantity
    {"Hexapod1" #{"Country1"}
     "Hexapod2" #{"Country1", "Country2"}
