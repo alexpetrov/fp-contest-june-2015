@@ -20,8 +20,16 @@
   (reduce #(process-hexapod-stats %1 %2)
           {} hexapod->country))
 
+(defn country->quantity [hexapods->country]
+  (into {} (for [[country hexapods] (country->hexapod hexapods->country)]
+             [country (count hexapods)])))
 
 (comment
+  (country->quantity
+   {"Hexapod1" #{"Country1"}
+    "Hexapod2" #{"Country1", "Country2"}
+    "Hexapod3" #{"Country1", "Country2"}
+    "Hexapod4" #{"Country3"}})
   (process-hexapod-stats {} ["Hexapod1" #{"Country1" "Country2"}])
 
   (def hc {"Hexapod1" #{"Country1"}
