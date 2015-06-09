@@ -9,10 +9,28 @@
     (into {}
           (for [hexapod hexapods
                 :let [[hexapod-name countries-str] (split hexapod #":")
-                      countries (map trim (split countries-str #","))]]
+                      countries (into #{} (map trim (split countries-str #",")))]]
             [hexapod-name countries]))))
 
+(defn process-hexapod-stats [country->hexapods [hexapod countries]]
+  (reduce (fn [c->h country] (assoc c->h country (conj (get c->h country #{}) hexapod)))
+          country->hexapods countries))
+
+(defn country->hexapod [hexapod->country]
+  (reduce #(process-hexapod-stats %1 %2)
+          {} hexapod->country))
+
+
 (comment
+  (process-hexapod-stats {} ["Hexapod1" #{"Country1" "Country2"}])
+
+  (def hc {"Hexapod1" #{"Country1"}
+       "Hexapod2" #{"Country1", "Country2"}
+       "Hexapod3" #{"Country2", "Country3"}
+       "Hexapod4" #{"Country3"}})
+
+  (country->hexapod hc)
+
   (def data
   "
 Hexapod1: Country1, Country2
