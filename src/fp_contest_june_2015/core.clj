@@ -17,8 +17,7 @@
           country->hexapods countries))
 
 (defn country->hexapod [hexapod->country]
-  (reduce #(process-hexapod-stats %1 %2)
-          {} hexapod->country))
+  (reduce #(process-hexapod-stats %1 %2) {} hexapod->country))
 
 (defn country->quantity [hexapod->country]
   (into {} (for [[country hexapods] (country->hexapod hexapod->country)]
@@ -35,36 +34,3 @@
         result (time (take 5 (country->quantity-sorted hexapod->country)))]
     (println "Пятёрка стран с самым большим количеством видов насекомых из коллекции:" )
     (pprint result)))
-
-(comment
-  (country->quantity-sorted
-   {"Hexapod1" #{"Country1"}
-    "Hexapod4" #{"Country3"}
-    "Hexapod2" #{"Country1", "Country2"}
-    "Hexapod3" #{"Country1", "Country2"}})
-  (country->quantity
-   {"Hexapod1" #{"Country1"}
-    "Hexapod2" #{"Country1", "Country2"}
-    "Hexapod3" #{"Country1", "Country2"}
-    "Hexapod4" #{"Country3"}})
-  (process-hexapod-stats {} ["Hexapod1" #{"Country1" "Country2"}])
-
-  (def hc {"Hexapod1" #{"Country1"}
-       "Hexapod2" #{"Country1", "Country2"}
-       "Hexapod3" #{"Country2", "Country3"}
-       "Hexapod4" #{"Country3"}})
-
-  (country->hexapod hc)
-
-  (def data
-  "
-Hexapod1: Country1, Country2
-Hexapod2: Country3, Country4")
-  (parse-hexapods data)
-  (split-lines data)
-  (->> data split-lines (remove blank?))
-  (def hexapods (->> data split-lines (remove blank?)))
-  (for [hexapod hexapods
-        :let [[hexapod-name countries] (split hexapod #":")]]
-    [hexapod-name (into [] (split countries #","))])
-  )
