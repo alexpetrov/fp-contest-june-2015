@@ -1,12 +1,11 @@
-# fp-contest-june-2015
+# June 2015 Functional Programming Contest by Roman Dushkin
 
-A Clojure library designed to ... well, that part is up to you.
 This program implements some data transformations on hexapods habitat statistics.
 Task description in Russian language is here in Roman's blog post: http://haskell98.blogspot.ru/2015/06/blog-post_5.html
 
-Check out code in [core.clj](https://github.com/alexpetrov/fp-contest-data-transformations/blob/master/src/fp_contest_data_transformations/core.clj).
+Check out code in [core.clj](https://github.com/alexpetrov/fp-contest-june-2015/blob/master/src/fp_contest_june_2015/core.clj).
 
-Check out tests to see basic examples of what algorithm is about [core_test.clj](https://github.com/alexpetrov/fp-contest-data-transformations/blob/master/test/fp_contest_data_transformations/core_test.clj).
+Check out tests to see basic examples of what algorithm is about [core_test.clj](https://github.com/alexpetrov/fp-contest-june-2015/blob/master/test/fp_contest_june_2015/core_test.clj).
 
 ## Usage
 
