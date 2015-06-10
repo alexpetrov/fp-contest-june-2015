@@ -31,8 +31,8 @@ Hexapod2: Country3, Country4"))
           "Hexapod3" #{"Country1", "Country2"}
           "Hexapod4" #{"Country3"}}))
 
-(expect '(["Country1" 3] ["Country2" 2] ["Country3" 1])
-        (country->quantity-sorted
+(expect {"Country1" 3, "Country2" 2, "Country3" 1}
+        (country->quantity-sorted-top-5
          {"Hexapod1" #{"Country1"}
           "Hexapod4" #{"Country3"}
           "Hexapod2" #{"Country1", "Country2"}

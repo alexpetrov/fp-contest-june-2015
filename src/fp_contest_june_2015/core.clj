@@ -23,14 +23,23 @@
   (into {} (for [[country hexapods] (country->hexapod hexapod->country)]
              [country (count hexapods)])))
 
-(defn country->quantity-sorted [hexapod->country]
+(defn country->quantity-sorted-top-5 [hexapod->country]
   (->> (country->quantity hexapod->country)
-       (sort #(-(compare (last %1) (last %2))))))
+       (sort #(-(compare (last %1) (last %2))))
+       (take 5)
+       (into {})))
+
+(defn is-country-in-top-five? [country->quantity-sorted country]
+  (contains? country->quantity-sorted country))
 
 (defn -main
   [& args]
   (let [path "resources"
         hexapod->country (parse-hexapods (slurp (str path "/" "hexapod-stats.txt")))
-        result (time (take 5 (country->quantity-sorted hexapod->country)))]
+        country-quantity-sorted (time (country->quantity-sorted-top-5 hexapod->country))
+        is-vevelonia-top-5 (is-country-in-top-five? country-quantity-sorted "Вевелония")]
     (println "Пятёрка стран с самым большим количеством видов насекомых из коллекции:" )
-    (pprint result)))
+    (pprint country-quantity-sorted)
+    (if is-vevelonia-top-5
+      (println "Ганс Шмуцихь подвергается обструкции")
+      (println "Вольфганг Кунстштюк всех обманул"))))
